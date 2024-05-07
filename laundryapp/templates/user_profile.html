@@ -1,0 +1,102 @@
+{% extends 'user_index.html' %}
+{% block body %}
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.field-icon {
+  margin-left: -32px;
+  top:1px;
+  position: relative;
+  background:gray;
+  color:yellow;
+  z-index: 0;
+  padding:8px;
+}
+
+.field-icon:hover {
+  cursor:pointer;
+}
+</style>
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb">
+            <a href="/dashboard/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+            <a href="#" class="current">User Profile</a>
+        </div>
+        <h1>User Profile</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title">
+                        <span class="icon">
+                            <i class="icon-info-sign"></i>
+                        </span>
+                        <h5>User Profile</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <form class="form-horizontal" method="post" action="#" name="basic_validate" id="basic_validate" novalidate="novalidate" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="control-group">
+                                <label class="control-label">Full Name:</label>
+                                <div class="controls">
+                                    <input type="text" name="fullname" class="span11" placeholder="Enter Name" required value="{{data.user.first_name}}">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Mobile Number</label>
+                                <div class="controls">
+                                    <input type="password" class="span11" name="mobile" id="mobile" placeholder="Mobile Number" value="{{data.mobile}}" readonly>
+                                    <span class="fa fa-eye field-icon toggle-password" id="mobile-eye" onclick="togglePassword()"></span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Email Address:</label>
+                                <div class="controls">
+                                    <input type="password" name="email" id="email" class="span11" placeholder="Enter Email" value="{{data.user.username}}" readonly>
+                                    <span class="fa fa-eye field-icon toggle-password-2" id="email-eye" onclick="togglePassword2()"></span>
+                                </div>
+                            </div>
+                            <div class="form-actions" align="center">
+                                <input type="submit" value="Update" class="btn btn-success">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function togglePassword() {
+  var mobileInput = document.getElementById("mobile");
+  var eyeIcon = document.getElementById("mobile-eye");
+  if (mobileInput.type == "password") {
+    eyeIcon.classList.remove("fa-eye");
+    eyeIcon.classList.add("fa-eye-slash");
+    mobileInput.type = "text";
+  } else {
+    eyeIcon.classList.remove("fa-eye-slash");
+    eyeIcon.classList.add("fa-eye");
+    mobileInput.type = "password";
+  }
+}
+
+
+function togglePassword2() {
+  var emailInput = document.getElementById("email")
+  var eyeIcon = document.getElementById("email-eye");
+  if (emailInput.type == "password") {
+    eyeIcon.classList.remove("fa-eye");
+    eyeIcon.classList.add("fa-eye-slash");
+    emailInput.type = "text";
+  } else {
+    eyeIcon.classList.remove("fa-eye-slash");
+    eyeIcon.classList.add("fa-eye");
+    emailInput.type = "password";
+  }
+}
+
+</script>
+{% endblock %}

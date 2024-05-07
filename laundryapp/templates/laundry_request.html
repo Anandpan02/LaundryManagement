@@ -1,0 +1,128 @@
+{% extends 'user_index.html' %}
+{% block body %}
+{% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+$('#pickupaddress').hide();
+$('#service').change(function () {
+var v = $("#service").val();
+
+
+if(v=='Drop Service')
+{
+$('#pickupaddress').hide();
+}
+
+if(v=='Pickup Service')
+{
+$('#pickupaddress').show();
+}
+});
+});
+
+
+</script>
+
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="/user_dashboard/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a><a href="#" class="current">Laundry Request Form</a> </div>
+    <h1>Laundry Request Form</h1>
+  </div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+            <h5>Laundry Request Form</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <form action="" method="post" class="form-horizontal" enctype="multipart/form-data" >
+              {% csrf_token %}
+              <div class="control-group">
+                <label class="control-label">Pick Up/Drop Date :</label>
+                <div class="controls">
+                  <input type="date" class="span11" name="todate" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label"><span style="color:blue">Topwear</span><br/>(T-shirt,Top,Shirt):</label>
+                <div class="controls">
+                  <input type="text" class="span11" id ="input1" name="topwearqty" placeholder="Topwear(T-shirt,Top,Shirt)" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label"><span style="color:blue">Bottomwear</span><br/>(Lower,Jeans,Leggins):</label>
+                <div class="controls">
+                  <input type="text"  id ="input2" class="span11" name="bottomwearqty" placeholder="Bottomwear(Lower,Jeans,Leggins)"  />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Woolen Cloth:</label>
+                <div class="controls">
+                  <input type="text" id ="input3" class="span11" name="woolenclothqty" placeholder="Woolen Cloth" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Others:</label>
+                <div class="controls">
+                  <input type="text" class="span11"name="other" placeholder="Others" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Service Type:</label>
+                <div class="controls">
+                  <select class="span11" id = "service" name="servicetype" required>
+                      <option value="">Select Service type</option>
+                      <option value="Pickup Service">Pickup Service</option>
+                      <option value="Drop Service">Drop Service</option>
+                  </select>
+                </div>
+              </div>
+              <div class="control-group" id = "pickupaddress">
+                <label class="control-label">Pickup Address:</label>
+                <div class="controls">
+                  <input type="text" class="span11" name="pickupaddress"  placeholder="Enter Address" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Contact Person:</label>
+                <div class="controls">
+                  <input type="text" class="span11" name="contactperson" placeholder="Contact Person" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">Description(if any)</label>
+                <div class="controls">
+                  <textarea class="span11" name="description" placeholder="Description"></textarea>
+                </div>
+              </div>
+              <div class="form-actions" align="center">
+                <button type="submit" class="btn btn-success">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function validateInputs(inputs) {
+      var regex = /^(0|[1-9]\d*)(\.\d+)?$/;
+      var valid = true;
+      for (var i = 0; i < inputs.length; i++) {
+        var input = inputs[i];
+        if (!regex.test(input.value) || parseFloat(input.value) < 0) {
+          input.setCustomValidity('Please enter a non-negative number.');
+          valid = false;
+        } else {
+          input.setCustomValidity('');
+        }
+      }
+      return valid;
+    }
+  </script>
+
+{% endblock %}

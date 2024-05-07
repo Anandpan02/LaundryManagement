@@ -1,0 +1,49 @@
+{% extends 'admin_index.html' %}
+{% block body %}
+{% load static %}
+<div id="content">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="/dashboard/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">View Laundry Price</a> </div>
+    <h1>View Laundry Price</h1>
+  </div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="widget-box">
+          <div class="widget-title">
+             <span class="icon"><i class="icon-th"></i></span>
+            <h5>View Laundry Price</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>Top Wear</th>
+                  <th>Bottom Wear</th>
+                  <th>Woolen</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for i in data %}
+                <tr class="gradeX">
+                  <td>{{forloop.counter}}.</td>
+                  <td>{{i.topwearprice}}</td>
+                  <td>{{i.bottomwearprice}}</td>
+                  <td>{{i.woolenprice}}</td>
+                  <td class="center">
+                    <a href="{% url 'edit_laundry_price' i.id %}" class="tip-top" data-original-title="Update"><i class="icon-ok" ></i></a>
+                      <a href="{% url 'delete_laundry_price' i.id %}" onclick="return confirm('Are you sure?')" class="tip-top" data-original-title="Delete"><i class="icon-remove"></i></a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

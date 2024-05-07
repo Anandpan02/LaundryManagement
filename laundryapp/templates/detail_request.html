@@ -1,0 +1,166 @@
+{% extends 'admin_index.html' %}
+{% load custom_tags %}
+{% block body %}
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"><a href="/dashboard/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+            <a href="#" class="current">Detail Request</a></div>
+        <h1>Detail Request</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title">
+                        <span class="icon"><i class="icon-th"></i></span>
+                        <h5>Detail Request</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered data-table">
+                            <tr>
+                                <th style="color:blue">Date of Laundry</th>
+                                <td>{{data.todate}}</td>
+                            </tr>
+                            <tr>
+                                <th style="color:blue">Top Wear</th>
+                                <td>{{data.topwearqty}}</td>
+                            </tr>
+                            <tr>
+                                <th style="color:blue">Bottom Wear</th>
+                                <td>{{data.bottomwearqty}}</td>
+                            </tr>
+                            <tr>
+                                <th style="color:blue">Woolen Wear</th>
+                                <td>{{data.woolenclothqty}}</td>
+                            </tr>
+                            <tr>
+                                <th style="color:blue">Other</th>
+                                <td>{{data.other}}</td>
+                            </tr>
+                            <tr>
+                                <th style="color:blue">Service</th>
+                                <td>{{data.servicetype}}</td>
+                            </tr>
+                            <tr>
+                                <th style="color:blue">Pickup Address</th>
+                                <td>{{data.pickupaddress}}</td>
+                            </tr>
+                            <tr>
+                                <th style="color:blue">Contact Person</th>
+                                <td>{{data.contactperson}}</td>
+                            </tr>
+                            <tr>
+                                <th style="color:blue">Description</th>
+                                <td>{{data.description}}</td>
+                            </tr>
+                            <tr>
+                                <th style="color:blue">Record Status</th>
+                                <td>{{data.status}}</td>
+                            </tr>
+                        </table>
+                        <br>
+                        <div class="widget-title">
+                        <span class="icon"></span>
+                        <h5 style="color:red">Invoice of the Above Laundry Request</h5>
+                        </div>
+                        <div class="widget-content nopadding">
+                         <form action="" method="post">
+                          {% csrf_token %}
+                        <table class="table table-bordered data-table">
+                          <thead>
+                            <tr>
+                              <th>S.No</th>
+                              <th>Clothes</th>
+                              <th>Qty</th>
+                              <th>Per Price</th>
+                              <th>Total</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                              <td>1.</td>
+                              <td>Top Wear</td>
+                              <td>{{data.topwearqty}}</td>
+                              <td>{{price.topwearprice}}</td>
+                              <td>{% price_cal data.topwearqty price.topwearprice %}</td>
+                          </tr>
+                          <tr>
+                              <td>2.</td>
+                              <td>Bottom Wear</td>
+                              <td>{{data.bottomwearqty}}</td>
+                              <td>{{price.bottomwearprice}}</td>
+                              <td>{% price_cal data.bottomwearqty price.bottomwearprice %}</td>
+                          </tr>
+                          <tr>
+                              <td>3.</td>
+                              <td>Wollen Wear</td>
+                              <td>{{data.woolenclothqty}}</td>
+                              <td>{{price.woolenprice}}</td>
+                              <td>{% price_cal data.woolenclothqty price.woolenprice %}</td>
+                          </tr>
+                          <tr>
+                              <td>4.</td>
+                              <td>Other</td>
+                              <td>{{data.other}}</td>
+                              <td>Other charge will be added by admin</td>
+                              <td>
+                                  {% if data.status == "Inprocess" %}
+                                  <input type="number" name="other-price" id="other-price" onblur="total_price_calculation()">
+                                  {% endif %}{{data.other_price}}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td>Total</td>
+                              <td>{% total_qty data.topwearqty  data.bottomwearqty data.woolenclothqty data.other %}</td>
+                              <td><input type="hidden" name="total_price" id="total_price">
+                              <input type="hidden" name="total_price_cal_hidden" id="total_price_cal_hidden" value="{% total_price_cal data.topwearqty price.topwearprice data.bottomwearqty price.bottomwearprice data.woolenclothqty price.woolenprice  %}"></td>
+                              <td id="total_price_cal">
+                                  {% if data.price %}{{data.price}} Rs. {% else %}
+                              {% total_price_cal data.topwearqty price.topwearprice data.bottomwearqty price.bottomwearprice data.woolenclothqty price.woolenprice %} Rs.
+                              {% endif %}</td>
+                          </tr>
+                          </tbody>
+                        </table>
+                        </div>
+                        <hr>
+                        {% if not data.status == "Finish" %}
+                        <div class="control-group" align="center">
+
+                            <h4>Status:</h4>
+                            <div class="controls">
+                              <select class="span11" name="status" required>
+                                  {% if data.status == "New" %}
+                                  <option>Accept</option>
+                                  {% endif %}
+                                  {% if data.status == "Accept" %}
+                                  <option>Inprocess</option>
+                                  {% endif %}
+                                  {% if data.status == "Inprocess" %}
+                                  <option>Finish</option>
+                                  {% endif %}
+                              </select>
+                            </div>
+                            <div class="form-actions" align="center">
+                             <button type="submit" class="btn btn-success">Update</button>
+                            </div>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    function total_price_calculation(){
+        var  total_price_cal = document.getElementById('total_price_cal_hidden').value;
+        var  other_price = document.getElementById('other-price').value;
+        total = parseFloat(total_price_cal) + parseFloat(other_price);
+        document.getElementById('total_price_cal').innerHTML = parseFloat(total);
+        document.getElementById('total_price').value = parseFloat(total);
+    }
+</script>
+{% endblock %}
+</div>
+

@@ -1,0 +1,56 @@
+{% extends 'admin_index.html' %}
+{% block body %}
+{% load static %}
+<div id="content">
+    <div id="content-header">
+        <div id="breadcrumb"><a href="/dashboard/" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>Home</a></div>
+    </div>
+    <div class="container-fluid">
+        <div class="quick-actions_homepage">
+            <ul class="quick-actions">
+                <li><a href="/requestlist/?action=New" style="color:green">{{New.count}} <i class="icon-dashboard"></i> New Request </a></li>
+                <li><a href="/requestlist/?action=Accept" style="color:blue">{{Accept.count}} <i class="icon-shopping-bag"></i> Accept!</a></li>
+                <li><a href="/requestlist/?action=Inprocess" style="color:red">{{Inprocess.count}} <i class="icon-web"></i> Inprocess!</a></li>
+                <li><a href="/requestlist/?action=Finish" style="color:orange">{{Finish.count}} <i class="icon-people"></i> Finish!</a></li>
+            </ul>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+                  <div class="span12">
+                    <div class="widget-box">
+                        <div class="widget-title">
+                            <span class="icon">
+                                <i class="icon-eye-open"></i>
+                            </span>
+                            <h4 align="center">Laundry Price(Per Unit)</h4>
+                        </div>
+                        <div class="widget-content nopadding">
+                            <table class="table table-bordered">
+                            {% for i in data %}
+                                <tbody>
+                                <tr>
+                                    <td>Top Wear Laundry Price</td>
+                                    <td>{{i.topwearprice}} Rs.</td>
+                                </tr>
+                                <tr>
+                                    <td>Bootom Wear Laundry Price</td>
+                                    <td>{{i.bottomwearprice}} Rs.</td>
+                                </tr>
+                                <tr>
+                                    <td>Woolen Cloth Laundry Price</td>
+                                    <td>{{i.woolenprice}} Rs.</td>
+                                </tr>
+                                </tbody>
+                            {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+{% endblock %}
